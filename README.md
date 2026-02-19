@@ -6,12 +6,12 @@ This project was developed as part of the **SWE 212 - Distributed Information an
 
 **Instructor:** Ahmet Özmen
 **Term:** Spring 2026
-**Students:** Muhammed Uyan, Berkay Efe Öncü
+**Students:** Muhammed Uyan, Berkay Efe Öncü, Gürbüz Cem Çiven
 
 ---
 
 ## 📋 Project Overview
-The Task Management System is a distributed information system designed to manage employees and tasks within a corporate structure[cite: 36, 158]. The application performs CRUD (Create, Read, Update, Delete) operations through a user-friendly interface[cite: 88, 91].
+The Task Management System is a distributed information system designed to manage employees and tasks within a corporate structure. The application performs CRUD (Create, Read, Update, Delete) operations through a user-friendly interface.
 
 ### Key Features
 * **Employee Management:** Adding, fetching, updating, and deleting employee records.
@@ -25,11 +25,11 @@ The Task Management System is a distributed information system designed to manag
 
 ## 🛠 Technologies Used
 
-* **Programming Language:** Java (JDK 21+) [cite: 47, 116]
-* **Interface (GUI):** JavaFX 21 (Modular SDK) [cite: 97, 117]
-* **Database:** PostgreSQL 16 [cite: 49, 60]
-* **Build Tool:** Maven [cite: 121]
-* **IDE:** IntelliJ IDEA [cite: 58]
+* **Programming Language:** Java (JDK 21+) 
+* **Interface (GUI):** JavaFX 21 (Modular SDK) 
+* **Database:** PostgreSQL 16 
+* **Build Tool:** Maven
+* **IDE:** IntelliJ IDEA 
 
 ---
 
