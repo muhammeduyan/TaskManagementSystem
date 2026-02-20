@@ -16,7 +16,7 @@ The Task Management System is a distributed information system designed to manag
 ### Key Features
 * **Employee Management:** Adding, fetching, updating, and deleting employee records.
 * **Task Management:** Creating tasks, managing descriptions, and updating statuses.
-* **Database Integration:** Live connection via JDBC to a PostgreSQL database[cite: .
+* **Database Integration:** Live connection via JDBC to a PostgreSQL database.
 * **Modern Interface:** Responsive layouts designed using JavaFX and Scene Builder.
 
 
@@ -35,11 +35,6 @@ The Task Management System is a distributed information system designed to manag
 
 ## 📷 Screenshots
 
-### 1. Main Dashboard
-The main menu allowing the user to navigate between modules.
-
-![Main Screen](screenshots/main-screen.png)
-
 ### 2. Employee Management (Employee GUI)
 The interface interacting with the `employees` table in the database.
 
@@ -49,6 +44,11 @@ The interface interacting with the `employees` table in the database.
 The interface interacting with the `tasks` table in the database.
 
 ![Task Management](screenshots/task-screen.png)
+
+### 3. Task Assigment Dashboard
+The interface for managing task assignments, interacting with the `Taskers` table in the database.
+
+![Main Screen](screenshots/tasker-screen.png)
 
 ---
 
@@ -74,4 +74,12 @@ CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,
     name VARCHAR(16) NOT NULL,
     description VARCHAR(64)
+);
+
+-- CREATE TABLE Taskers (
+    employee_id INTEGER REFERENCES Employees(id) ON DELETE CASCADE,
+    task_id INTEGER REFERENCES Tasks(id) ON DELETE CASCADE,
+    task_date DATE NOT NULL,
+    task_time TIME NOT NULL,
+    PRIMARY KEY (employee_id, task_id)
 );

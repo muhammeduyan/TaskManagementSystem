@@ -4,7 +4,7 @@ module com.example.taskmanagementsystem {
     requires java.sql;      // Veritabanı için şart
 
     // Model sınıfların (Employee, Task) veritabanı veya TableView tarafından okunabilmesi için:
-    opens com.example.taskmanagementsystem.model to javafx.base;
+    opens com.example.taskmanagementsystem.db to javafx.base;
 
     // FXML dosyasının Controller sınıfına erişebilmesi için:
     opens com.example.taskmanagementsystem.controller to javafx.fxml;
@@ -13,4 +13,5 @@ module com.example.taskmanagementsystem {
     opens com.example.taskmanagementsystem to javafx.fxml;
 
     exports com.example.taskmanagementsystem;
+    opens com.example.taskmanagementsystem.dto to javafx.base;
 }

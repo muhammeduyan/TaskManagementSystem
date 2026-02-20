@@ -1,5 +1,6 @@
-package com.example.taskmanagementsystem.model;
+package com.example.taskmanagementsystem.dto;
 
+@SuppressWarnings({"LombokGetterMayBeUsed", "LombokSetterMayBeUsed"})
 public class Task {
     private int id;
     private String title;
@@ -21,5 +22,4 @@ public class Task {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
-
 }

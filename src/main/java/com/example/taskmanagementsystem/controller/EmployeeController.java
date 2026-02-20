@@ -1,104 +1,85 @@
 package com.example.taskmanagementsystem.controller;
 
-import com.example.taskmanagementsystem.dao.EmployeeDAO;
-import com.example.taskmanagementsystem.model.Employee;
-import javafx.event.ActionEvent;
+import com.example.taskmanagementsystem.db.EmployeeCrudOperations;
+import com.example.taskmanagementsystem.dto.Employee;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import java.util.Optional;
 
 public class EmployeeController {
 
-    // FXML dosyasındaki elemanları buraya bağlıyoruz
     @FXML private TextField txtId;
     @FXML private TextField txtName;
     @FXML private TextField txtDepartment;
 
-    // İş mantığı sınıfımızı çağırıyoruz
-    private final EmployeeDAO employeeDAO = new EmployeeDAO();
+    private final EmployeeCrudOperations dbOps = new EmployeeCrudOperations();
 
-    // 1. FETCH (GETİR) BUTONU
     @FXML
-    void onFetch(ActionEvent event) {
-        try {
-            int id = Integer.parseInt(txtId.getText());
-            Employee emp = employeeDAO.findById(id);
+    void getEmployee() {
+        int id = Integer.parseInt(txtId.getText());
+        Optional<Employee> emp = dbOps.getEmployeeById(id);
 
-            if (emp != null) {
-                txtName.setText(emp.getName());
-                txtDepartment.setText(emp.getDepartment());
-            } else {
-                showAlert("Uyarı", "Kayıt Bulunamadı", "Bu ID'ye ait çalışan yok.");
-            }
-        } catch (NumberFormatException e) {
-            showAlert("Hata", "Geçersiz ID", "Lütfen ID alanına sayı girin.");
+        if (emp.isPresent()) {
+            txtName.setText(emp.get().getName());
+            txtDepartment.setText(emp.get().getDepartment());
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "Employee with id " + id + " not found");
         }
     }
 
-    // 2. SAVE (KAYDET) BUTONU
     @FXML
-    void onSave(ActionEvent event) {
-        String name = txtName.getText();
-        String department = txtDepartment.getText();
-
-        if (name.isEmpty() || department.isEmpty()) {
-            showAlert("Hata", "Eksik Bilgi", "İsim ve Departman boş olamaz!");
-            return;
-        }
-
-        Employee emp = new Employee(0, name, department); // ID otomatik artar (Serial)
-        employeeDAO.save(emp);
-        showAlert("Başarılı", "Kayıt Eklendi", "Yeni çalışan başarıyla eklendi.");
-        clearFields();
-    }
-
-    // 3. UPDATE (GÜNCELLE) BUTONU
-    @FXML
-    void onUpdate(ActionEvent event) {
-        try {
-            int id = Integer.parseInt(txtId.getText());
-            String name = txtName.getText();
-            String department = txtDepartment.getText();
-
-            Employee emp = new Employee(id, name, department);
-            employeeDAO.update(emp);
-            showAlert("Başarılı", "Güncellendi", "Çalışan bilgileri güncellendi.");
-        } catch (NumberFormatException e) {
-            showAlert("Hata", "ID Hatası", "Lütfen geçerli bir ID girin.");
+    void saveEmployee() {
+        Employee emp = new Employee(
+                Integer.parseInt(txtId.getText()),
+                txtName.getText(),
+                txtDepartment.getText()
+        );
+        int result = dbOps.insertEmployee(emp);
+        if (result == -1) {
+            showAlert(Alert.AlertType.ERROR, "Error", "There is another employee with id: " + emp.getId());
+        } else {
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Employee saved successfully.");
         }
     }
 
-    // 4. DELETE (SİL) BUTONU
     @FXML
-    void onDelete(ActionEvent event) {
-        try {
-            int id = Integer.parseInt(txtId.getText());
-            employeeDAO.delete(id);
-            showAlert("Bilgi", "Silindi", "Çalışan kaydı silindi.");
-            clearFields();
-        } catch (NumberFormatException e) {
-            showAlert("Hata", "ID Hatası", "Silmek için geçerli bir ID girin.");
-        }
+    void updateEmployee() {
+        Employee emp = new Employee(
+                Integer.parseInt(txtId.getText()),
+                txtName.getText(),
+                txtDepartment.getText()
+        );
+        dbOps.updateEmployee(emp);
+        showAlert(Alert.AlertType.INFORMATION, "Success", "Employee updated.");
     }
 
-    // 5. CLOSE (KAPAT) BUTONU
     @FXML
-    void onClose(ActionEvent event) {
-        System.exit(0);
+    void deleteEmployee() {
+        int id = Integer.parseInt(txtId.getText());
+        dbOps.deleteEmployee(id);
+        clearEmployee();
+        showAlert(Alert.AlertType.INFORMATION, "Success", "Employee deleted.");
     }
 
-    // Yardımcı Metod: Alanları temizle
-    private void clearFields() {
+    @FXML
+    void clearEmployee() {
         txtId.clear();
         txtName.clear();
         txtDepartment.clear();
     }
 
-    // Yardımcı Metod: Ekrana uyarı bas
-    private void showAlert(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    @FXML
+    void close() {
+        Stage stage = (Stage) txtId.getScene().getWindow();
+        stage.close();
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
         alert.setTitle(title);
-        alert.setHeaderText(header);
+        alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
     }

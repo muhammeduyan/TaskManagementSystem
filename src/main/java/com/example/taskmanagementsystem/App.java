@@ -7,7 +7,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+@SuppressWarnings("exports")
 public class App extends Application {
+    public App() {
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         // FXML dosyasını yüklüyoruz
@@ -21,7 +25,8 @@ public class App extends Application {
         stage.show();
     }
 
+    @SuppressWarnings("unused")
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }
