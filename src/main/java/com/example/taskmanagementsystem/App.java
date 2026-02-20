@@ -20,7 +20,7 @@ public class App extends Application {
         // Sahneyi oluşturuyoruz
         Scene scene = new Scene(fxmlLoader.load(), 400, 300);
 
-        stage.setTitle("Task Management System - Employee");
+        stage.setTitle("Task Management System");
         stage.setScene(scene);
         stage.show();
     }
